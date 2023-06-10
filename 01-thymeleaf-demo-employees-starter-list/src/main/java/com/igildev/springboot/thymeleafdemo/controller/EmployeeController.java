@@ -5,10 +5,7 @@ import com.igildev.springboot.thymeleafdemo.entity.Employee;
 import com.igildev.springboot.thymeleafdemo.service.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -51,6 +48,18 @@ public class EmployeeController {
         return "employees/employee-form";
     }
 
+    @GetMapping("/showFormForUpdate")
+    public String showFormUpdate(Model theModel, @RequestParam("employeeId") int employeeId) {
+
+        //find employee
+        Employee employee = employeeService.findById(employeeId);
+
+        theModel.addAttribute("employee", employee);
+
+        return "employees/employee-form";
+    }
+
+
     @PostMapping("/save")
     public String saveEmployee(@ModelAttribute("employee") Employee theEmployee) {
 
@@ -60,6 +69,10 @@ public class EmployeeController {
         //use a redirect to prevent duplicate submission
         return "redirect:/employees/list";
     }
+
+
+
+
 }
 
 
